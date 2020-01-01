@@ -37,7 +37,7 @@ try:
             actor_msg = check_res.text
             # print(actor_msg)
             if actor_msg.startswith('{"Name'):  # Object
-                actor_id = re.search(r'"Id":"(\d+)"', actor_msg).group(1)  # 匹配处理“标题”
+                actor_id = re.search(r'"Id":"(\w+)"', actor_msg).group(1)  # 匹配处理“标题”
                 print('>>女优：', actor, 'ID：', actor_id)
             elif actor_msg.startswith('Access'):
                 print(actor_msg)
