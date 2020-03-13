@@ -8,6 +8,7 @@ from hashlib import md5
 from json import loads
 from traceback import format_exc
 from re import search
+import cloudscraper
 
 
 # 每一部jav的“结构体”
@@ -135,26 +136,21 @@ def get_acook(prox, retry):
 
 # 获取网页源码，返回网页html
 def get_library_html(list_url):   # 0尝试次数  1报错信息   2url  3 proxy
+    scraper = cloudscraper.create_scraper(browser="chrome", delay=10)
+    while list_url[0] != 10:
+        try:
+            if len(list_url) == 3:
+                rqs = scraper.get(list_url[2])
+            else:
+                rqs = scraper.get(list_url[2], proxies=list_url[3])
+            rqs.encoding = 'utf-8'
+            return rqs.text
+        except:
+            list_url[0] += 1
+            continue
     if list_url[0] == 10:
         print('>>请检查你的网络环境是否可以打开：', list_url[2])
         os.system('pause')
-    try:
-        if len(list_url) == 3:
-            rqs = requests.get(list_url[2], timeout=(6, 7))
-        else:
-            rqs = requests.get(list_url[2], proxies=list_url[3], timeout=(6, 7))
-    except:
-        list_url[0] += 1
-        print(list_url[1], list_url[2])
-        return get_library_html(list_url)
-    rqs.encoding = 'utf-8'
-    rqs_content = rqs.text
-    if search(r'JAVLibrary', rqs_content):
-        return rqs_content
-    else:
-        list_url[0] += 1
-        print(list_url[1], '空返回...', list_url[2])
-        return get_library_html(list_url)
 
 
 def get_bus_html(list_url):    # 0尝试次数  1报错信息  2url  3 proxy
