@@ -4,7 +4,7 @@ from re import search, findall
 from time import sleep
 from requests import Session, get, post
 from PIL import Image
-from cfscrape import get_cookie_string
+from cloudscraper import get_cookie_string
 # from traceback import format_exc
 
 # 功能：请求各大jav网站和arzon的网页
