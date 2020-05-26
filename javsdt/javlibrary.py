@@ -4,7 +4,7 @@ from os.path import exists
 from re import findall
 from re import search
 from configparser import RawConfigParser
-from shutil import copyfile
+from shutil import copyfile, move
 from traceback import format_exc
 ########################################################################################################################
 from functions_preparation import JavFile, choose_directory, check_classify_root, exist_nfo, exist_extra_folders,\
@@ -567,13 +567,13 @@ while input_start_key == '':
                     # 理想状态下，还不存在目标同名文件
                     if not exists(path_jav_new):
                         # 重命名视频
-                        os.rename(path_jav, path_jav_new)
+                        move(path_jav, path_jav_new)
                         path_jav = path_jav_new                  # 【发生变化】 path_jav
                         record_video_old(jav_file, jav.file)
                     # 已存在目标文件，但就是现在的文件
                     elif path_jav.upper() == path_jav_new.upper():
                         try:
-                            os.rename(path_jav, path_jav_new)
+                            move(path_jav, path_jav_new)
                             path_jav = path_jav_new              # 【发生变化】 path_jav
                         except:  # windows本地磁盘，“abc-123.mp4”重命名为“abc-123.mp4”或“ABC-123.mp4”没问题，但有用户反映，挂载的磁盘会报错“file exists error”
                             num_fail += 1
@@ -590,7 +590,7 @@ while input_start_key == '':
                         subt_file_new = jav_name + subt_type     # 【临时变量】subt_file_new
                         path_subt_new = root_now + sep + subt_file_new    # 【临时变量】path_subt_new
                         if path_subt != path_subt_new:
-                            os.rename(path_subt, path_subt_new)
+                            move(path_subt, path_subt_new)
                             subt_file = subt_file_new           # 【发生变化】 subt_file
                             path_subt = path_subt_new           # 【发生变化】 path_subt
                         print('    >修改字幕名完成')
@@ -606,7 +606,7 @@ while input_start_key == '':
                     path_jav_new = root_dest + sep + jav_file  # 【临时变量】新的影片路径
                     # 目标文件夹没有相同的影片，防止用户已经有一个“avop-127.mp4”，现在又来一个
                     if not exists(path_jav_new):
-                        os.rename(path_jav, path_jav_new)
+                        move(path_jav, path_jav_new)
                         root_now = root_dest                   # 【发生变化】root_now   C:\Users\JuneRain\Desktop\测试文件夹\1\葵司\
                         path_jav = path_jav_new                # 【发生变化】path_jav   C:\Users\JuneRain\Desktop\测试文件夹\1\葵司\avop-127.mp4
                         print('    >归类视频文件完成')
@@ -614,7 +614,7 @@ while input_start_key == '':
                         if subt_file:
                             path_subt_new = root_now + sep + subt_file  # 【临时变量】新的字幕路径
                             if path_subt != path_subt_new:
-                                os.rename(path_subt, path_subt_new)
+                                move(path_subt, path_subt_new)
                                 # 不再更新 path_subt，下面不会再操作 字幕文件
                             print('    >归类字幕文件完成')
                     else:
@@ -639,7 +639,7 @@ while input_start_key == '':
                             # 想要重命名的目标影片文件夹不存在
                             if not exists(root_new):
                                 # 修改文件夹
-                                os.rename(root_now, root_new)
+                                move(root_now, root_new)
                                 root_now = root_new                                         # 【发生变化】root_now
                                 path_jav = root_now + sep + jav_file                        # 【发生变化】path_jav
                                 jav_folder = jav_folder_new                                 # 【发生变化】jav_folder
@@ -661,13 +661,13 @@ while input_start_key == '':
                         path_jav_new = root_separate_folder + sep + jav_file    # 【临时变量】新的影片路径。
                         # 如果这个文件夹是现成的，在它内部确认有没有“avop-127.mp4”。
                         if not exists(path_jav_new):
-                            os.rename(path_jav, path_jav_new)
+                            move(path_jav, path_jav_new)
                             root_now = root_separate_folder  # 【发生变化】root_now
                             path_jav = path_jav_new          # 【发生变化】path_jav
                             jav_folder = jav_folder_new      # 【发生变化】jav_folder
                             # 移动字幕
                             if subt_file:
-                                os.rename(path_subt, root_separate_folder + sep + subt_file)
+                                move(path_subt, root_separate_folder + sep + subt_file)
                                 # 下面不会操作 字幕文件 了，path_subt不再更新
                                 print('    >移动字幕到独立文件夹')
                         # 里面已有“avop-127.mp4”，这不是它的家。
@@ -699,7 +699,7 @@ while input_start_key == '':
                             "  <rating>" + score + "</rating>\n"
                             "  <criticrating>" + criticrating + "</criticrating>\n"
                             "  <year>" + dict_nfo['发行年份'] + "</year>\n"
-                            "  <mpaa>NC-17</mpaa>\n"                            
+                            "  <mpaa>NC-17</mpaa>\n"
                             "  <customrating>NC-17</customrating>\n"
                             "  <countrycode>JP</countrycode>\n"
                             "  <premiered>" + time_premiered + "</premiered>\n"
@@ -837,7 +837,7 @@ while input_start_key == '':
                         # 把现在文件夹里的东西都搬过去
                         jav_files = os.listdir(root_now)
                         for i in jav_files:
-                            os.rename(root_now + sep + i, root_now_new + sep + i)
+                            move(root_now + sep + i, root_now_new + sep + i)
                         # 删除“旧房子”，这是javsdt唯一的删除操作，而且os.rmdir只能删除空文件夹
                         os.rmdir(root_now)
                         print('    >归类文件夹完成')
