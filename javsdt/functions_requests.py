@@ -114,8 +114,6 @@ def steal_library_header(url, proxy):
                 cookie_value, user_agent = get_cookie_string_browser(url, proxy = proxy)
             else:
                 cookie_value, user_agent = get_cookie_string_browser(url, proxy = None)
-            # print(cookie_value)
-            # sys.exit()
             print('通过5秒检测！\n')
             return {'User-Agent': user_agent, 'Cookie': cookie_value}
         except:
