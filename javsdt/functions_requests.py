@@ -6,7 +6,7 @@ from requests import Session, get, post
 from PIL import Image
 from cloudscraper import get_cookie_string
 from selenium import webdriver
-import time, sys
+import time
 # from traceback import format_exc
 
 # 功能：请求各大jav网站和arzon的网页
@@ -118,10 +118,7 @@ def steal_library_header(url, proxy):
             # sys.exit()
             print('通过5秒检测！\n')
             return {'User-Agent': user_agent, 'Cookie': cookie_value}
-        except Exception as e:
-            print(e)
-            sys.exit()
-            break
+        except:
             print('通过失败，重新尝试...')
             continue
     print('>>通过javlibrary的5秒检测失败：', url)
@@ -136,7 +133,6 @@ def get_cookie_string_browser(url, proxy):
     driver.get(url)
     time.sleep(10)
     cookies = driver.get_cookies()
-    # print(cookies)
     cookie_value_list = []
     for cookie in cookies:
         cookie_value_list.append(cookie['name'] + '=' + cookie['value'])
