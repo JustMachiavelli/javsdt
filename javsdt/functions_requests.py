@@ -158,8 +158,8 @@ def get_library_html(url, header, proxy):
         # print(rqs_content)
         if search(r'JAVLibrary', rqs_content):        # 得到想要的网页，直接返回
             return rqs_content, header
-        elif search(r'javme', rqs_content):           # 搜索车牌后，javlibrary跳转前的网页
-            url = url[:23] + search(r'(\?v=javme.+?)"', rqs_content).group(1)    # rqs_content是一个非常简短的跳转网页，内容是目标jav所在网址
+        elif search(r'jav', rqs_content):           # 搜索车牌后，javlibrary跳转前的网页
+            url = url[:23] + search(r'(\?v=jav.+?)"', rqs_content).group(1)    # rqs_content是一个非常简短的跳转网页，内容是目标jav所在网址
             if len(url) > 70:                          # 跳转车牌特别长，cf已失效
                 header = steal_library_header(url[:23], proxy)  # 更新header后继续请求
                 continue
