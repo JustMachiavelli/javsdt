@@ -1,0 +1,6 @@
+baidu-aip
+cloudscraper
+Pillow
+pysocks
+requests==2.20.0
+xlrd==1.2.0

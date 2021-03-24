@@ -17,13 +17,9 @@
 
 ## 3、【其他开发者】运行环境：  
   python3.7.6 发行版是pyinstaller打包的exe  
-    pip install requests==2.20.0（安装2.25.1报错ProxyError无法使用http代理）  
-    pip install Pillow  
-    pip install baidu-aip  
-    pip install pysocks  
-    pip install [cloudscraper](https://github.com/VeNoMouS/cloudscraper)（目前版本暂时不需要）  
-    pip install xlrd==1.2.0（安装2.2.1无法读取xlsx）  
-   几个jav的py都是独立执行的，加了很多很多注释，希望能理解其中踩过的坑。  
+    python3.7 -m pip install -r requirements.txt
+
+  几个jav的py都是独立执行的，加了很多很多注释，希望能理解其中踩过的坑。  
    
 ## 4、工作流程：  
     （1）用户选择文件夹，遍历路径下的所有文件。  
